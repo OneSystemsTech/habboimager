@@ -32,6 +32,7 @@ const Home = () => {
       );
       const data = await response.json();
       console.log(data);
+      setUsername(data.name);
       const emblemas: string[] = data.selectedBadges.map(
           (badge: { code: string }) => badge.code
       );
@@ -115,7 +116,7 @@ const Home = () => {
                 {/* User badges */}
                 <div className="flex justify-center mt-3">
                   <div className="flex flex-wrap mx-4">
-                    <div className="px-2 w-65 text-center">
+                    <div className="px-2 w-1/1 text-center">
                       <div className="bg-gray-800 rounded-lg shadow-md p-4">
                         <h2 className="text-xl font-semibold mb-2">Emblemas</h2>
                         <div className="badge-container">
