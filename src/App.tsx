@@ -17,7 +17,12 @@ const Home = () => {
   const [emblemas, setEmblemas] = useState<{ code: string; name: string }[]>([]);
   const [figure, setFigure] = useState<string>("hr-3163-61.hd-190-28.ch-210-110.lg-280-64.sh-290-92.ha-3156-110.ea-3925-94-99");
   const [online, setOnline] = useState<boolean>(false);
+  const [userData, setUserData] = useState<null | UserData>(null);
 
+  interface UserData {
+    figureString: string;
+    // Add other properties of UserData if needed
+  }
 
   // Initialize tooltips after the component is mounted
   useEffect(() => {
@@ -27,8 +32,8 @@ const Home = () => {
         placement: 'right',
         theme: 'translucent',
       });
-      setUsername('Fabbri');
-      fetchHabboData('Fabbri');
+      // setUsername('Fabbri');
+      // fetchHabboData('Fabbri');
     };
   }, []);
 
@@ -47,18 +52,18 @@ const Home = () => {
       const figure = data.figureString;
       setFigure(figure);
 
-      setOnline(data.online);
-
       const emblemasData = data.selectedBadges.map((badge: {
         code: string;
         name: string;
       }) => ({ code: badge.code, name: badge.name }));
       setEmblemas(emblemasData);
+
+      // Store the user data in the state
+      setUserData(data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
-
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     fetchHabboData(event.target.value || 'Fabbri');
@@ -81,20 +86,25 @@ const Home = () => {
   // create an int called counter
 
   const changeUserFigure = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
+    if (event.target.checked && userData) {
+      // Use the figureString from userData
+      const figureString = userData.figureString;
+
       // find ch in figure and "isolates" it till next dot
-      const chFigure = figure.substring(
-          figure.indexOf("ch-"),
-          figure.indexOf(".", figure.indexOf("ch-"))
+      const chFigure = figureString.substring(
+          figureString.indexOf("ch-"),
+          figureString.indexOf(".", figureString.indexOf("ch-"))
       );
       // console.log(chFigure);
       // replace chFigure with ch-225-73
-      const newFigure = figure.replace(chFigure, "ch-225-73");
+      const newFigure = figureString.replace(chFigure, "ch-225-73");
       // console.log(newFigure);
       setFigure(newFigure);
     } else {
-      // Revert the figure back to the default value
-      setFigure("hr-3163-61.hd-190-28.ch-210-110.lg-280-64.sh-290-92.ha-3156-110.ea-3925-94-99");
+      // Revert the figure back to the figure received from the API response
+      if (userData) {
+        setFigure(userData.figureString);
+      }
     }
   };
 
