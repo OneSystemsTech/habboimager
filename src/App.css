@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap');
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  font-family: 'Dosis', sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+a {
+  font-family: 'Dosis', sans-serif;
+  font-weight: bold;
+}
+
+nav {
+  font-family: 'Dosis', sans-serif;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  position: relative;
+  border-bottom: 2px solid indigo;
+}
+
+nav::before,
+nav::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background-color: #5c35db;
+  border-radius: 50%;
+  opacity: 0.8;
+  transition: transform 0.3s;
+}
+
+nav::before {
+  top: -7px;
+  transform: scaleX(0);
+}
+
+nav::after {
+  bottom: -7px;
+  transform: scaleX(0);
+}
+
+nav:hover::before,
+nav:hover::after {
+  transform: scaleX(1);
+}
