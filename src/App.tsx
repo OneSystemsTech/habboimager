@@ -89,7 +89,7 @@ const Home = () => {
         <main className="container mx-auto px-4 py-8">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full md:w-2/4 px-4 mb-8">
-              <div className="bg-gray-900 rounded-lg shadow-md p-4">
+              <div className="bg-gray-50  rounded-lg shadow-md p-4 dark:bg-gray-900 ">
                 {/* Card Content */}
                 <h2 className="text-xl font-semibold mb-2">Informações</h2>
                 <p className="text-gray-600">
@@ -100,7 +100,7 @@ const Home = () => {
                 <div className="mt-4">
                   <label className="block text-gray-400 mb-2">Usuário</label>
                   <input
-                      className="bg-gray-800 appearance-none border-2 border-gray-800 rounded w-full py-2 px-4 text-gray-100 leading-tight focus:outline-none focus:bg-gray-700 focus:border-purple-500"
+                      className="text-black dark:bg-gray-800 appearance-none border-2 dark:border-gray-800 rounded w-full py-2 px-4 dark:text-gray-100 leading-tight focus:outline-none dark:focus:bg-gray-700 focus:border-purple-500"
                       type="text"
                       placeholder="Usuário"
                       onBlur={handleInputChange}
@@ -122,7 +122,7 @@ const Home = () => {
                               onChange={changeUserFigure}
                               id="flexSwitchCheckDefault"/>
                           <label
-                              className="inline-block pl-[0.15rem] hover:cursor-pointer"
+                              className="inline-block pl-[0.15rem] hover:cursor-pointer text-black dark:text-white"
                               htmlFor="flexSwitchCheckDefault">
                             Opção 1
                           </label>
