@@ -27,20 +27,19 @@ const Home = () => {
   }, []);
 
 
-  const imageUrl = `https://www.habbo.com.br/habbo-imaging/avatarimage?direction=${direction}&head_direction=3&action=std&gesture=sml&size=l&user=${username}`;
+  const imageUrl = `https://www.habbo.com.br/habbo-imaging/avatarimage?direction=${direction}&head_direction=3&action=std&gesture=sml&size=l&figure=${figure}`;
 
-  const fetchHabboData = async () => {
+  const fetchHabboData = async (username: string) => {
     try {
       const response = await fetch(
           `https://www.habbo.com.br/api/public/users?name=${username}`
       );
       const data = await response.json();
-      //console.log(data);
+
       setUsername(data.name);
 
-        const figure = data.figureString;
-        setFigure(figure);
-      // console.log(figure);
+      const figure = data.figureString;
+      setFigure(figure);
 
       const emblemasData = data.selectedBadges.map((badge: {
         code: string;
@@ -52,9 +51,11 @@ const Home = () => {
     }
   };
 
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value || 'Fabbri');
+    fetchHabboData(event.target.value || 'Fabbri');
   };
+
 
   const handleEsquerdaClick = () => {
     setDirection((prevDirection) => prevDirection + 1);
@@ -66,7 +67,7 @@ const Home = () => {
   };
 
   const handleImageLoad = () => {
-    fetchHabboData();
+//
   };
 
   const changeUserFigure = () => {
