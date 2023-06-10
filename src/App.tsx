@@ -6,6 +6,8 @@ import { createPopper } from '@popperjs/core';
 import { tippy } from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional for styling
 import 'tippy.js/themes/translucent.css';
+import {Simulate} from "react-dom/test-utils";
+import change = Simulate.change;
 
 const Home = () => {
   const defaultImageUrl =
@@ -14,6 +16,8 @@ const Home = () => {
   const [direction, setDirection] = useState(3);
   const [emblemas, setEmblemas] = useState<{ code: string; name: string }[]>([]);
   const [figure, setFigure] = useState<string>("hr-3163-61.hd-190-28.ch-210-110.lg-280-64.sh-290-92.ha-3156-110.ea-3925-94-99");
+  const [online, setOnline] = useState<boolean>(false);
+
 
   // Initialize tooltips after the component is mounted
   useEffect(() => {
@@ -23,6 +27,8 @@ const Home = () => {
         placement: 'right',
         theme: 'translucent',
       });
+      setUsername('Fabbri');
+      fetchHabboData('Fabbri');
     };
   }, []);
 
@@ -40,6 +46,8 @@ const Home = () => {
 
       const figure = data.figureString;
       setFigure(figure);
+
+      setOnline(data.online);
 
       const emblemasData = data.selectedBadges.map((badge: {
         code: string;
@@ -70,17 +78,25 @@ const Home = () => {
 //
   };
 
-  const changeUserFigure = () => {
-    //console.log(figure);
-    // find ch in figure and "isolates" it till next dot
-    const chFigure = figure.substring(figure.indexOf("ch-"), figure.indexOf(".", figure.indexOf("ch-")));
-    console.log(chFigure);
-    // replace chFigure with ch-225-73
-    const newFigure = figure.replace(chFigure, "ch-225-73");
-    console.log(newFigure);
-    setFigure(newFigure);
-    
-  }
+  // create an int called counter
+
+  const changeUserFigure = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      // find ch in figure and "isolates" it till next dot
+      const chFigure = figure.substring(
+          figure.indexOf("ch-"),
+          figure.indexOf(".", figure.indexOf("ch-"))
+      );
+      // console.log(chFigure);
+      // replace chFigure with ch-225-73
+      const newFigure = figure.replace(chFigure, "ch-225-73");
+      // console.log(newFigure);
+      setFigure(newFigure);
+    } else {
+      // Revert the figure back to the default value
+      setFigure("hr-3163-61.hd-190-28.ch-210-110.lg-280-64.sh-290-92.ha-3156-110.ea-3925-94-99");
+    }
+  };
 
   return (
       <div>
