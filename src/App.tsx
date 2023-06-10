@@ -22,11 +22,24 @@ const Home = () => {
 
   const imageUrl = `https://www.habbo.com.br/habbo-imaging/avatarimage?direction=${direction}&head_direction=3&action=std&gesture=sml&size=l&user=${username}`;
 
+  const fetchHabboData = async () => {
+    try {
+      const response = await fetch(`https://www.habbo.com.br/api/public/users?name=${username}`);
+      const data = await response.json();
+      console.log(data);
+    }
+    catch (error) {
+      console.error('Error fetching data:', error);
+    }
+
+  }
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     (username !== '') ? setUsername(event.target.value) : setUsername('Fabbri');
 
-    // if user == 'Fabbri', add verified icon
   };
+
+
 
   const handleEsquerdaClick = () => {
     setDirection(direction + 1);
@@ -36,6 +49,10 @@ const Home = () => {
     if(direction === 0) return setDirection(8);
     setDirection(direction - 1);
   }
+
+  const handleImageLoad = () => {
+    fetchHabboData();
+  };
 
   return (
     <div>
@@ -70,7 +87,7 @@ const Home = () => {
           &nbsp;<FontAwesomeIcon icon={faCircleCheck} style={{ color: 'rgb(107 33 168)', fontSize: '18px',}} />
         </span>
                 </h2>
-              <img className="mx-auto" src={imageUrl || defaultImageUrl} alt="" onError={() => setUsername('Fabbri')} />
+              <img className="mx-auto" src={imageUrl || defaultImageUrl} alt="" onError={() => setUsername('Fabbri')} onLoad={handleImageLoad} />
               {/* Arrow left and right */}
               <div className="flex justify-between mt-4">
                 <button onClick={handleEsquerdaClick} className="bg-purple-800 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
