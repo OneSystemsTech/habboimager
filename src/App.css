@@ -67,3 +67,9 @@ nav:hover::before,
 nav:hover::after {
   transform: scaleX(1);
 }
+
+.tooltipEstilizado {
+  padding: 10px;
+  background: rgb(0,0,0);
+  color: white;
+}

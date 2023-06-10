@@ -1,13 +1,16 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import {faCircleCheck, faWifi} from '@fortawesome/free-solid-svg-icons';
 import { createPopper } from '@popperjs/core';
 import { tippy } from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional for styling
 import 'tippy.js/themes/translucent.css';
 import {Simulate} from "react-dom/test-utils";
 import change = Simulate.change;
+import 'react-tooltip/dist/react-tooltip.css'
+import { Tooltip } from 'react-tooltip'
+
 
 const Home = () => {
   const defaultImageUrl =
@@ -32,8 +35,8 @@ const Home = () => {
         placement: 'right',
         theme: 'translucent',
       });
-      // setUsername('Fabbri');
-      // fetchHabboData('Fabbri');
+      setUsername('Fabbri');
+      fetchHabboData('Fabbri');
     };
   }, []);
 
@@ -46,7 +49,7 @@ const Home = () => {
           `https://www.habbo.com.br/api/public/users?name=${username}`
       );
       const data = await response.json();
-
+      setOnline(data.online);
       setUsername(data.name);
 
       const figure = data.figureString;
@@ -132,6 +135,8 @@ const Home = () => {
                   />
                 </div>
 
+
+
                 {/* Button vestir farda */}
                 <div className="mt-4">
                   {/* Radio clothing selection input */}
@@ -167,17 +172,29 @@ const Home = () => {
                   Visualização da(s) estilização(ões) do usuário.
                 </p>
                 <h2 className="mx-auto text-center mt-2 font-bold text-xl">
+
                   {username}
-                  <span data-tippy-content="Habbo Verificado">
-                  &nbsp;
+
+                  { username === 'Fabbri' ?
                     <FontAwesomeIcon
+                        data-tooltip-id="my-tooltip"
+                        data-tooltip-content="Verificado"
                         icon={faCircleCheck}
                         style={{
                           color: 'rgb(107 33 168)',
                           fontSize: '18px',
+
                         }}
+                        className="ml-1"
                     />
-                </span>
+
+                      : '' }
+
+
+
+                  &nbsp;
+                  {online ? <FontAwesomeIcon data-tooltip-id="my-tooltip" data-tooltip-content="Online" icon={faWifi} style={{color: "#00ff00", fontSize: '18px'}} /> : <FontAwesomeIcon data-tooltip-id="my-tooltip" data-tooltip-content="Offline"  icon={faWifi} style={{color: "#ff0000", fontSize: '18px'}} />}
+
                 </h2>
                 <img
                     className="mx-auto"
@@ -197,17 +214,20 @@ const Home = () => {
                           {emblemas.map((badge) => (
                               <div key={badge.code} className="badge-item">
                                 <img
-                                    data-tippy-content={badge.name}
+                                    data-tooltip-id="my-tooltip"
+                                    data-tooltip-content={badge.name}
                                     style={{ display: "inline-block"}}
                                     key={badge.code}
                                     src={`https://images.habbo.com/c_images/album1584/${badge.code}.png`}
                                     alt={badge.code}
                                     className="badge-image hover:opacity-75"
-                                    title={badge.name}
                                 />
                               </div>
                           ))}
                         </div>
+
+                        <Tooltip id="my-tooltip" place="right" className="tooltipEstilizado" style={{ background: "black", padding: "5px"}} />
+
                       </div>
                     </div>
                   </div>
