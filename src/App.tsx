@@ -13,7 +13,7 @@ const Home = () => {
   const [username, setUsername] = useState('Fabbri');
   const [direction, setDirection] = useState(3);
   const [emblemas, setEmblemas] = useState<{ code: string; name: string }[]>([]);
-  const [figure, setFigure] = useState<string>("");
+  const [figure, setFigure] = useState<string>("hr-3163-61.hd-190-28.ch-210-110.lg-280-64.sh-290-92.ha-3156-110.ea-3925-94-99");
 
   // Initialize tooltips after the component is mounted
   useEffect(() => {
@@ -78,9 +78,7 @@ const Home = () => {
     // replace chFigure with ch-225-73
     const newFigure = figure.replace(chFigure, "ch-225-73");
     console.log(newFigure);
-    // change image url
-    const newImageUrl = `https://www.habbo.com.br/habbo-imaging/avatarimage?figure=${newFigure}&direction=${direction}&head_direction=3&action=std&gesture=sml&size=l`;
-    console.log(newImageUrl);
+    setFigure(newFigure);
     
   }
 
