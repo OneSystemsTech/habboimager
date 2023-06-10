@@ -73,3 +73,19 @@ nav:hover::before,
 nav:hover::after {
   transform: scaleX(1);
 }
+
+.badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.badge-item {
+  display: inline-block;
+  margin: 5px;
+}
+
+.badge-image {
+  width: 40px;
+  height: 40px;
+}

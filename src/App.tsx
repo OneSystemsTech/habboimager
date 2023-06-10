@@ -12,16 +12,19 @@ const Home = () => {
       'https://www.habbo.com.br/habbo-imaging/avatarimage?direction=3&head_direction=3&action=wav&gesture=sml&size=l&user=Fabbri';
   const [username, setUsername] = useState('Fabbri');
   const [direction, setDirection] = useState(3);
-  const [emblemas, setEmblemas] = useState<string[]>([]);
+  const [emblemas, setEmblemas] = useState<{ code: string; name: string }[]>([]);
 
   // Initialize tooltips after the component is mounted
   useEffect(() => {
-    tippy('[data-tippy-content]', {
-      allowHTML: true,
-      placement: 'right',
-      theme: 'translucent',
-    });
+    window.onload = () => {
+      tippy('[data-tippy-content]', {
+        allowHTML: true,
+        placement: 'right',
+        theme: 'translucent',
+      });
+    };
   }, []);
+
 
   const imageUrl = `https://www.habbo.com.br/habbo-imaging/avatarimage?direction=${direction}&head_direction=3&action=std&gesture=sml&size=l&user=${username}`;
 
@@ -33,11 +36,11 @@ const Home = () => {
       const data = await response.json();
       console.log(data);
       setUsername(data.name);
-      const emblemas: string[] = data.selectedBadges.map(
-          (badge: { code: string }) => badge.code
-      );
-      console.log(emblemas);
-      setEmblemas(emblemas);
+      const emblemasData = data.selectedBadges.map((badge: {
+        code: string;
+        name: string;
+      }) => ({ code: badge.code, name: badge.name }));
+      setEmblemas(emblemasData);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -80,7 +83,7 @@ const Home = () => {
                       className="bg-gray-800 appearance-none border-2 border-gray-800 rounded w-full py-2 px-4 text-gray-100 leading-tight focus:outline-none focus:bg-gray-700 focus:border-purple-500"
                       type="text"
                       placeholder="Usuário"
-                      onChange={handleInputChange}
+                      onBlur={handleInputChange}
                   />
                 </div>
               </div>
@@ -120,15 +123,18 @@ const Home = () => {
                       <div className="bg-gray-800 rounded-lg shadow-md p-4">
                         <h2 className="text-xl font-semibold mb-2">Emblemas</h2>
                         <div className="badge-container">
-                          {emblemas.map((badgeCode) => (
-                              <img
-                                  data-tippy-content={badgeCode}
-                                  style={{ display: "inline-block" }}
-                                  key={badgeCode}
-                                  src={`https://images.habbo.com/c_images/album1584/${badgeCode}.png`}
-                                  alt={badgeCode}
-                                  className="badge-image"
-                              />
+                          {emblemas.map((badge) => (
+                              <div key={badge.code} className="badge-item">
+                                <img
+                                    data-tippy-content={badge.name}
+                                    style={{ display: "inline-block"}}
+                                    key={badge.code}
+                                    src={`https://images.habbo.com/c_images/album1584/${badge.code}.png`}
+                                    alt={badge.code}
+                                    className="badge-image hover:opacity-75"
+                                    title={badge.name}
+                                />
+                              </div>
                           ))}
                         </div>
                       </div>
